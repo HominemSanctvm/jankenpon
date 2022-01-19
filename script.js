@@ -1,39 +1,20 @@
-let items = ["rock", "paper", "scissors"];
 let playerScore = 0;
 let computerScore = 0;
 
-function promptPlayer() {
-  let playerPrompt = prompt("Choose between Rock, paper and scissors");
-  let playerChoice = playerPrompt.toLowerCase();
-
-  if (!items.includes(playerChoice)) {
-    alert("Choose a valid option!");
-    return;
-  }
-  return playerChoice;
-}
-
 function computerPlay() {
-  let computerChoice = items[Math.floor(Math.random() * 3)];
-  return computerChoice;
+	const items = ["rock", "paper", "scissors"];
+	const computerChoice = items[Math.floor(Math.random() * 3)];
+	return computerChoice;
 }
 
-function game() {
-  for (let i = 0; i < 5; i++) {
-    let playerSelection = promptPlayer();
-    let computerSelection = computerPlay();
-    playRound(playerSelection, computerSelection);
-  }
-  if (playerScore > computerScore) {
-    alert("Congratulations! You beat the AI!");
-    return;
-  } else if (computerScore > playerScore) {
-    alert("Oh no! The AI defeated you!");
-  } else {
-		alert("It's a draw, no one wins!");
-	}
+function game(playerSelection) {
+	const computerSelection = computerPlay();
+	const outScore = document.querySelector('#outScore');
+	playRound(playerSelection, computerSelection);
 
+	outScore.textContent = `You: ${playerScore} VS AI: ${computerScore}`;
 
+	
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -82,4 +63,11 @@ function playRound(playerSelection, computerSelection) {
 
   }
 }
-game();
+
+const btnRock = document.querySelector('#rock-button');
+const btnPaper = document.querySelector('#paper-button');
+const btnScissors = document.querySelector('#scissors-button');
+
+btnRock.addEventListener('click', function () {game('rock')});
+btnPaper.addEventListener('click', function () {game('paper')});
+btnScissors.addEventListener('click', function () {game('scissors')});
