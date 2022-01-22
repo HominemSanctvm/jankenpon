@@ -19,6 +19,7 @@ function game(playerSelection) {
 	outRoundResult.textContent = roundPlayedResult;
 	
 	if (playerScore > 4) { 
+		outGameResults.style.color = 'blue';
 		outGameResults.textContent = 'You defeated the AI!';
 		gameButtons.forEach(element => {
 			element.setAttribute('disabled', 'true');
@@ -26,6 +27,7 @@ function game(playerSelection) {
 		btnPlayAgain.style.display = 'block';
 	}
 	if (computerScore > 4) { 
+		outGameResults.style.color = 'red';
 		outGameResults.textContent = 'The AI defeated you!';
 		gameButtons.forEach(element => {
 			element.setAttribute('disabled', 'true');
@@ -86,18 +88,5 @@ gameButtons.forEach(element => {
 
 const btnPlayAgain = document.querySelector('#btnPlayAgain');
 btnPlayAgain.addEventListener('click', function () {
-	const outScore = document.querySelector('#outScore');
-	const outRoundResult = document.querySelector('#outRoundResult');
-	const outGameResults = document.querySelector('#outGameResults');
-	
-
-	playerScore = 0;
-	computerScore = 0;
-	outScore.textContent = '';
-	outRoundResult.textContent = '';
-	outGameResults.textContent = '';
-	gameButtons.forEach(element => {
-		element.removeAttribute('disabled');
-	});
-	btnPlayAgain.style.display = 'none';
+	document.location.reload(true);
 });
