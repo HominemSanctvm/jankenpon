@@ -8,66 +8,96 @@ function computerPlay() {
 }
 
 function game(playerSelection) {
-	const computerSelection = computerPlay();
 	const outScore = document.querySelector('#outScore');
-	playRound(playerSelection, computerSelection);
+	const outRoundResult = document.querySelector('#outRoundResult');
+	const outGameResults = document.querySelector('#outGameResults');
+
+	const computerSelection = computerPlay();
+	const roundPlayedResult = playRound(playerSelection, computerSelection);
 
 	outScore.textContent = `You: ${playerScore} VS AI: ${computerScore}`;
-
+	outRoundResult.textContent = roundPlayedResult;
+	
+	if (playerScore > 4) { 
+		outGameResults.textContent = 'You defeated the AI!';
+		gameButtons.forEach(element => {
+			element.setAttribute('disabled', 'true');
+		});
+		btnPlayAgain.style.display = 'block';
+	}
+	if (computerScore > 4) { 
+		outGameResults.textContent = 'The AI defeated you!';
+		gameButtons.forEach(element => {
+			element.setAttribute('disabled', 'true');
+		});
+		btnPlayAgain.style.display = 'block';
+	}
 	
 }
 
 function playRound(playerSelection, computerSelection) {
-  if (playerSelection == "rock") {
-    if (computerSelection == "paper") {
-      alert("You Lose! Paper beats Rock.");
-      computerScore += 1;
-    }
-    if (computerSelection == "scissors") {
-      alert("You Win! Rock beats Scissors.");
-      playerScore += 1;
-    }
-    if (computerSelection == "rock") {
-      alert("Draw!");
-    }
-
-  }
-
-  if (playerSelection == "paper") {
-    if (computerSelection == "scissors") {
-      alert("You Lose! Scissors beats paper.");
-      computerScore += 1;
-    }
-    if (computerSelection == "rock") {
-      alert("You Win! Paper beats rock.");
-      playerScore += 1;
-    }
-    if (computerSelection == "paper") {
-      alert("Draw!");
-    }
-  }
-
-  if (playerSelection == "scissors") {
-    if (computerSelection == "rock") {
-      alert("You Lose! Rock beats scissors.");
-      computerScore += 1;
-    }
-    if (computerSelection == "paper") {
-      alert("You Win! Scissors beats paper.");
-      playerScore += 1;
-    }
-    if (computerSelection == "scissors") {
-      alert("Draw!");
-    }
-
-
-  }
+	
+	switch (playerSelection) {
+		case 'rock':
+			switch (computerSelection) {
+				case 'paper':
+					computerScore += 1;
+					return 'You lose! Paper beats Rock.';
+				case 'scissors':
+					playerScore += 1;
+					return 'You win! Rock beats Scissors.';
+				default:
+					return 'Draw!';
+			}
+			break;
+		case 'paper':
+			switch (computerSelection) {
+				case 'scissors':
+                                        computerScore += 1;
+					return 'You lose! Scissors beats Paper.';
+				case 'rock':
+                                        playerScore += 1;
+					return 'You Win! Paper beats Rock.';
+				default:
+					return 'Draw!';
+			}
+			break;
+		case 'scissors':
+			switch (computerSelection) {
+				case 'rock':
+                                        computerScore += 1;
+					return 'You lose! Rock beats Scissors.';
+				case 'paper':
+                                        playerScore += 1;
+					return 'You Win! Scissors beats Paper.';
+				default:
+					return 'Draw!';
+				}
+			break;
+	}
 }
 
-const btnRock = document.querySelector('#rock-button');
-const btnPaper = document.querySelector('#paper-button');
-const btnScissors = document.querySelector('#scissors-button');
+const gameButtons = document.querySelectorAll('.gameButtons');
+gameButtons.forEach(element => {
+	element.addEventListener('click', function () {
+		game(element.getAttribute('data-value'))
+	});
+});
 
-btnRock.addEventListener('click', function () {game('rock')});
-btnPaper.addEventListener('click', function () {game('paper')});
-btnScissors.addEventListener('click', function () {game('scissors')});
+const btnPlayAgain = document.querySelector('#btnPlayAgain');
+btnPlayAgain.addEventListener('click', function () {
+	const outScore = document.querySelector('#outScore');
+	const outRoundResult = document.querySelector('#outRoundResult');
+	const outGameResults = document.querySelector('#outGameResults');
+	
+
+	playerScore = 0;
+	computerScore = 0;
+	outScore.textContent = '';
+	outRoundResult.textContent = '';
+	outGameResults.textContent = '';
+	gameButtons.forEach(element => {
+		element.removeAttribute('disabled');
+	});
+	btnPlayAgain.style.display = 'none';
+});
